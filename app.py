@@ -43,6 +43,30 @@ def init_db():
 
 init_db()
 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        conn = sqlite3.connect('database.db')
+        # Check if username already exists
+        existing_user = conn.execute("SELECT * FROM users WHERE username=?", (username,)).fetchone()
+        
+        if existing_user:
+            conn.close()
+            return "Username already exists! Try another."
+        
+        # Insert the new user into the database
+        conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        conn.commit()
+        conn.close()
+        return redirect('/login')
+        
+    return render_template("register.html")
+
+
 # ---------- LOGIN ----------
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -74,6 +98,9 @@ def logout():
     return redirect('/login')
 
 # ---------- HOME ----------
+
+
+
 @app.route('/', methods=['GET','POST'])
 def index():
     if 'user' not in session:
@@ -93,7 +120,7 @@ def index():
 
         conn = sqlite3.connect('database.db')
 
-        # 🔥 Dynamic subjects loop
+        #  Dynamic subjects loop
         for key in request.form:
             if key.startswith("marks"):
                 i = key.replace("marks","")
@@ -209,4 +236,5 @@ def download():
 
 # ---------- RUN ----------
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)

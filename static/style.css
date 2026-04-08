@@ -34,3 +34,14 @@ table{
     width:90%;
     text-align:center;
 }
+.btn-secondary {
+    display: inline-block;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-secondary:hover {
+    text-decoration: underline;
+}
