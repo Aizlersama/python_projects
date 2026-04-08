@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CGPA Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+<h2>CGPA Calculator</h2>
+
+<form method="POST">
+
+<input type="text" name="reg" placeholder="Registration Number" required>
+<input type="text" name="name" placeholder="Student Name" required>
+
+<!-- Department Dropdown -->
+<select name="dept" required>
+    <option value="">Select Department</option>
+    <option>CSE</option>
+    <option>ME</option>
+    <option>EE</option>
+    <option>CE</option>
+</select>
+
+<br><br>
+
+<input type="number" id="subjectCount" placeholder="Number of Subjects" required>
+<button type="button" onclick="createSubjects()">Generate Subjects</button>
+
+<div id="subjects"></div>
+
+<br><br>
+<button type="submit">Calculate CGPA</button>
+</form>
+
+{% if cgpa %}
+<h3>CGPA: {{ cgpa }}</h3>
+<h3>Result: {{ result }}</h3>
+{% endif %}
+
+<br>
+<a href="/records"><button>View All Student Records</button></a>
+<a href="/search"><button>Search Student</button></a>
+<a href="/logout"><button>Logout</button></a>
+
+</div>
+
+<script>
+function createSubjects(){
+    let count = document.getElementById("subjectCount").value;
+    let div = document.getElementById("subjects");
+    div.innerHTML = "";
+
+    for(let i=1;i<=count;i++){
+        div.innerHTML += `
+            <h4>Subject ${i}</h4>
+            <input type="text" name="sub${i}" placeholder="Subject Name" required>
+            <input type="number" name="marks${i}" placeholder="Marks" required>
+            <input type="number" name="credit${i}" placeholder="Credit" required>
+            <br><br>
+        `;
+    }
+}
+</script>
+
+</body>
+</html>

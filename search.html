@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Search Student</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+<h2>Search Student Result</h2>
+
+<form method="POST">
+    <input type="text" name="reg" placeholder="Enter Registration Number" required>
+    <button type="submit">Search</button>
+</form>
+
+{% if student %}
+    <h3>Student Details</h3>
+    <p><b>Registration No:</b> {{ student[1] }}</p>
+    <p><b>Name:</b> {{ student[2] }}</p>
+    <p><b>Department:</b> {{ student[3] }}</p>
+    <p><b>CGPA:</b> {{ student[4] }}</p>
+    <p><b>Result:</b> {{ student[5] }}</p>
+
+    <h3>Subjects</h3>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Credit</th>
+        </tr>
+
+        {% for s in subjects %}
+        <tr>
+            <td>{{ s[2] }}</td>
+            <td>{{ s[3] }}</td>
+            <td>{{ s[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/download"><button>Download PDF</button></a>
+
+{% elif student == None and request.method == 'POST' %}
+    <p style="color:red;">Student not found!</p>
+{% endif %}
+
+<br>
+<a href="/"><button>Back</button></a>
+
+</div>
+</body>
+</html>
