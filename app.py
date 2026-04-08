@@ -85,6 +85,7 @@ def login():
 
         if user:
             session['user'] = username
+            session['is_admin']=(username == 'adi_saini6066')
             return redirect('/')
         else:
             error = "Invalid Username or Password"
@@ -160,6 +161,8 @@ def index():
 def records():
     if 'user' not in session:
         return redirect('/login')
+    if not session.get('is_admin'):
+        return "Acess Denied: Only the Admin can view all records.",403
 
     conn = sqlite3.connect('database.db')
     students = conn.execute("SELECT * FROM student").fetchall()

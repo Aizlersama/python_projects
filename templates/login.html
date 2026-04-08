@@ -18,6 +18,9 @@
     {% if error %}
         <p style="color:red;">{{ error }}</p>
     {% endif %}
+    {% if session.get('is_admin')%}
+    <a href="/records">View All Student Records</a>
+    {% endif %}
 </div>
 
 </body>
